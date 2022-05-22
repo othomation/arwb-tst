@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
+import { InfoJwtAuthGuard } from './guards/info-jwt-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
@@ -23,5 +24,11 @@ export class AuthController {
    */
   async testLogin() {
     return { statusCode: 200 };
+  }
+
+  @UseGuards(InfoJwtAuthGuard)
+  @Get('/testInfoJwt')
+  async testInfoJwt(@Request() req) {
+    return { isUserLogged: req.user !== null, user: req.user };
   }
 }
