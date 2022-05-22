@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -15,8 +16,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         database:
           configService.get<string>('DB_PATH') || 'data/DATABASE.sqlite',
         synchronise: false,
+        autoLoadEntities: true,
       }),
     }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
